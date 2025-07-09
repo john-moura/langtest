@@ -1,0 +1,41 @@
+services:
+  frontend:
+    container_name: front
+    image: front:1.0.0
+    build:
+      context: ./front
+      dockerfile: front.dockerfile
+    ports:
+      - '3000:3000'
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:8000
+    depends_on:
+      - go_app
+  go_app:
+    container_name: go_app
+    image: goapp.1.0.0
+    build: 
+      context: ./Back
+      dockerfile: back.dockerfile
+    environment:
+      DATABASE_URL: "postgres://postgres:root@go_db:5432/langtest?sslmode=disable"
+    ports:
+      - "8080:8080"
+    volumes:
+      - .:/go/src/app
+    depends_on:
+      - go_db
+  go_db:
+    container_name: go_db
+    image: postgres:17
+    environment:
+      POSTGRES_PASSWORD: root
+      POSTGRES_USER: postgres
+      POSTGRES_DB: langtest
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata: {}
