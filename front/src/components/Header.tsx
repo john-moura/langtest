@@ -10,11 +10,21 @@ import Container from './Container';
 import { siteDetails } from '@/data/siteDetails';
 import { menuItems } from '@/data/menuItems';
 
+import NiceModal from "@ebay/nice-modal-react";
+import SignUp from "@/components/SignUp";
+import SignIn from "@/components/SignIn";
+
 const Header: React.FC = () => {
     const [isOpen, setIsOpen] = useState(false);
 
     const toggleMenu = () => {
         setIsOpen(!isOpen);
+    };
+    const openSignUp = () => {
+    NiceModal.show(SignUp);
+    };
+    const openSignIn = () => {
+    NiceModal.show(SignIn);
     };
 
     return (
@@ -40,7 +50,12 @@ const Header: React.FC = () => {
                             </li>
                         ))}
                         <li>
-                            <Link href="#cta" className="text-black bg-primary hover:bg-primary-accent px-8 py-3 rounded-full transition-colors">
+                            <Link href="" onClick={openSignIn} className="text-foreground hover:text-foreground-accent transition-colors">
+                                Sign In
+                            </Link>
+                        </li>
+                        <li>
+                            <Link href="" onClick={openSignUp} className="text-black bg-primary hover:bg-primary-accent px-8 py-3 rounded-full transition-colors">
                                 Get started
                             </Link>
                         </li>
@@ -86,7 +101,7 @@ const Header: React.FC = () => {
                             </li>
                         ))}
                         <li>
-                            <Link href="#cta" className="text-black bg-primary hover:bg-primary-accent px-5 py-2 rounded-full block w-fit" onClick={toggleMenu}>
+                            <Link href="" onClick={openSignUp} className="text-black bg-primary hover:bg-primary-accent px-5 py-2 rounded-full block w-fit">
                                 Get Started
                             </Link>
                         </li>

@@ -5,29 +5,18 @@ import (
 	"log"
 
 	"github.com/john-moura/langtest/cmd/api"
-	"github.com/john-moura/langtest/config"
 	_ "github.com/lib/pq"
 )
 
 func main() {
 
-	// const (
-	// 	host     = "127.0.0.1"
-	// 	port     = 5432
-	// 	user     = "postgres"
-	// 	password = "root"
-	// 	dbname   = "langtest"
-	// )
+	// In Dev
+	db, err := sql.Open("postgres", "host=127.0.0.1 port=5432 user=postgres password=root dbname=langtest sslmode=disable")
 
-	//psqlInfo := fmt.Sprintf("host=%s port=%d user=%s "+
-	//	"password=%s dbname=%s sslmode=disable",
-	//	host, port, user, password, dbname)
-
-	psqlInfo := config.Envs.DATABASE_URL
-
-	//db, err := sql.Open("postgres", "host=127.0.0.1 port=5432 user=postgres password=root dbname=Langtest sslmode=disable")
-	log.Println(psqlInfo)
-	db, err := sql.Open("postgres", psqlInfo)
+	//In Prod
+	//psqlInfo := config.Envs.DATABASE_URL
+	//log.Println(psqlInfo)
+	//db, err := sql.Open("postgres", psqlInfo)
 
 	if err != nil {
 		log.Fatal(err)

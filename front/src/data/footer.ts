@@ -7,7 +7,7 @@ export const footerDetails: {
     telephone: string;
     socials: ISocials;
 } = {
-    subheading: "Easies way to obtain you German language proficiency certificate.",
+    subheading: "Easiest way to obtain you German language proficiency certificate.",
     quickLinks: [
         {
             text: "Features",
@@ -20,6 +20,14 @@ export const footerDetails: {
         {
             text: "Testimonials",
             url: "#testimonials"
+        },
+        {
+            text: "Terms and Conditions",
+            url: "#terms"
+        },
+        {
+            text: "Privacy Policy",
+            url: "#privacy"
         }
     ],
     email: 'info@langtest.io',

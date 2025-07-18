@@ -23,6 +23,8 @@ func NewHandler(school types.UserSchool) *Handler {
 func (h *Handler) RegisterRoutes(router *mux.Router) {
 	router.HandleFunc("/login", h.handleLogin).Methods("POST")
 	router.HandleFunc("/register", h.handleRegister).Methods("POST")
+	router.HandleFunc("/logout", h.handleLogout).Methods("POST")
+
 }
 
 func (h *Handler) handleLogin(w http.ResponseWriter, r *http.Request) {
@@ -58,6 +60,17 @@ func (h *Handler) handleLogin(w http.ResponseWriter, r *http.Request) {
 		utils.WriteError(w, http.StatusInternalServerError, err)
 		return
 	}
+
+	// Set cookie
+	http.SetCookie(w, &http.Cookie{
+		Name:     "token",
+		Value:    token,
+		MaxAge:   3600 * 24 * 7,
+		Path:     "/",
+		HttpOnly: true,
+		Secure:   false, // false if you're on localhost w/o HTTPS
+		SameSite: http.SameSiteLaxMode,
+	})
 
 	utils.WriteJSON(w, http.StatusOK, map[string]string{"token": token})
 }
@@ -102,6 +115,45 @@ func (h *Handler) handleRegister(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	utils.WriteJSON(w, http.StatusCreated, nil)
+	// Fetch the created user to get its ID
+	createdUser, err := h.school.GetUserByEmail(payload.Email)
+	if err != nil {
+		utils.WriteError(w, http.StatusInternalServerError, fmt.Errorf("failed to retrieve newly created user"))
+		return
+	}
 
+	// Create JWT
+	secret := []byte(config.Envs.JWTSecret)
+	token, err := auth.CreateJWT(secret, createdUser.ID)
+	if err != nil {
+		utils.WriteError(w, http.StatusInternalServerError, err)
+		return
+	}
+
+	// Set cookie
+	http.SetCookie(w, &http.Cookie{
+		Name:     "token",
+		Value:    token,
+		MaxAge:   3600 * 24 * 7,
+		Path:     "/",
+		HttpOnly: true,
+		Secure:   false, // false if you're on localhost w/o HTTPS
+		SameSite: http.SameSiteLaxMode,
+	})
+
+	utils.WriteJSON(w, http.StatusCreated, nil)
+}
+
+func (h *Handler) handleLogout(w http.ResponseWriter, r *http.Request) {
+	http.SetCookie(w, &http.Cookie{
+		Name:     "token",
+		Value:    "",
+		Path:     "/",
+		MaxAge:   -1, // this deletes the cookie
+		HttpOnly: true,
+		Secure:   false, // set to false if not using HTTPS in dev
+		SameSite: http.SameSiteLaxMode,
+	})
+
+	utils.WriteJSON(w, http.StatusOK, nil)
 }

@@ -7,6 +7,7 @@ import (
 
 	"github.com/gorilla/mux"
 	"github.com/john-moura/langtest/service/user"
+	"github.com/rs/cors"
 )
 
 type APIServer struct {
@@ -29,7 +30,19 @@ func (s *APIServer) Run() error {
 	userHandler := user.NewHandler(userSchool)
 	userHandler.RegisterRoutes(subrouter)
 
+	// Apply CORS middleware
+	c := cors.New(cors.Options{
+		AllowedOrigins:   []string{"http://localhost:3000"},
+		AllowedMethods:   []string{"GET", "POST", "PUT", "DELETE"},
+		AllowedHeaders:   []string{"Authorization", "Content-Type"},
+		AllowCredentials: true,
+	})
+
+	// Wrap router
+	handler := c.Handler(router)
+
 	log.Println("Listening on ", s.addr)
 
-	return http.ListenAndServe(s.addr, router)
+	//return http.ListenAndServe(s.addr, router)
+	return http.ListenAndServe(s.addr, handler)
 }
