@@ -5,18 +5,20 @@ import (
 	"log"
 
 	"github.com/john-moura/langtest/cmd/api"
+	"github.com/john-moura/langtest/config"
 	_ "github.com/lib/pq"
 )
 
 func main() {
 
-	// In Dev
-	db, err := sql.Open("postgres", "host=127.0.0.1 port=5432 user=postgres password=root dbname=langtest sslmode=disable")
+	psqlInfo := config.Envs.DATABASE_URL
+	log.Println(psqlInfo)
+	if psqlInfo == "" {
+		//Dev env
+		psqlInfo = "host=127.0.0.1 port=5432 user=postgres password=root dbname=langtest sslmode=disable"
+	}
 
-	//In Prod
-	//psqlInfo := config.Envs.DATABASE_URL
-	//log.Println(psqlInfo)
-	//db, err := sql.Open("postgres", psqlInfo)
+	db, err := sql.Open("postgres", psqlInfo)
 
 	if err != nil {
 		log.Fatal(err)
