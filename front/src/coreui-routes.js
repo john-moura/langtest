@@ -1,4 +1,5 @@
 import React from 'react'
+import SubjectContent from './views/subjects/SubjectContent'
 
 const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'))
 const Colors = React.lazy(() => import('./views/theme/colors/Colors'))
@@ -51,6 +52,13 @@ const Toasts = React.lazy(() => import('./views/notifications/toasts/Toasts'))
 
 const Widgets = React.lazy(() => import('./views/widgets/Widgets'))
 
+// Subjects
+const Subject = React.lazy(() => import('./views/subjects/SubjectContent'))
+const Reading = React.lazy(() => import('./views/subjects/Reading'))
+const Listening = React.lazy(() => import('./views/subjects/Listening'))
+const Writing = React.lazy(() => import('./views/subjects/Writing'))
+const Speaking = React.lazy(() => import('./views/subjects/Speaking'))
+
 const routes = [
   { path: '/', exact: true, name: 'Home' },
   { path: '/dashboard', name: 'Dashboard', element: Dashboard },
@@ -97,6 +105,11 @@ const routes = [
   { path: '/notifications/modals', name: 'Modals', element: Modals },
   { path: '/notifications/toasts', name: 'Toasts', element: Toasts },
   { path: '/widgets', name: 'Widgets', element: Widgets },
+  { path: '/subjectcontent', name: 'Subject', element: SubjectContent },
+  { path: '/reading', name: 'Reading', element: Reading },
+  { path: '/listening', name: 'Listening', element: Listening },
+  { path: '/writing', name: 'Writing', element: Writing },
+  { path: '/speaking', name: 'Speaking', element: Speaking },
 ]
 
 export default routes

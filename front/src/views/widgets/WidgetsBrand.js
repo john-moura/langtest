@@ -2,8 +2,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { CWidgetStatsD, CRow, CCol } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
-import { cibFacebook, cibLinkedin, cibTwitter, cilCalendar } from '@coreui/icons'
+import { cilSpeech, cibReadme, cilHeadphones, cilColorBorder } from '@coreui/icons'
 import { CChart } from '@coreui/react-chartjs'
+import { NavLink } from 'react-router-dom'
+import { CBadge, CNavLink, CSidebarNav } from '@coreui/react'
 
 const WidgetsBrand = (props) => {
   const chartOptions = {
@@ -36,76 +38,25 @@ const WidgetsBrand = (props) => {
 
   return (
     <CRow className={props.className} xs={{ gutter: 4 }}>
-      <CCol sm={6} xl={4} xxl={3}>
+      <CCol lg={true}>
+        <a href= 'reading' style={{textDecoration: 'none'}}>
         <CWidgetStatsD
+          color="info"
           {...(props.withCharts && {
-            chart: (
-              <CChart
-                className="position-absolute w-100 h-100"
-                type="line"
-                data={{
-                  labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-                  datasets: [
-                    {
-                      backgroundColor: 'rgba(255,255,255,.1)',
-                      borderColor: 'rgba(255,255,255,.55)',
-                      pointHoverBackgroundColor: '#fff',
-                      borderWidth: 2,
-                      data: [65, 59, 84, 84, 51, 55, 40],
-                      fill: true,
-                    },
-                  ],
-                }}
-                options={chartOptions}
-              />
-            ),
+            //TODO: chart
           })}
-          icon={<CIcon icon={cibFacebook} height={52} className="my-4 text-white" />}
+          icon={<CIcon icon={cibReadme} height={52} className="my-4 text-white" />}
           values={[
-            { title: 'friends', value: '89K' },
-            { title: 'feeds', value: '459' },
+            { title: 'Score', value: '89%' },
+            { title: 'Weight', value: '35%' },
           ]}
-          style={{
-            '--cui-card-cap-bg': '#3b5998',
-          }}
         />
+        </a>
       </CCol>
-      <CCol sm={6} xl={4} xxl={3}>
+      
+      <CCol lg={true}>
         <CWidgetStatsD
-          {...(props.withCharts && {
-            chart: (
-              <CChart
-                className="position-absolute w-100 h-100"
-                type="line"
-                data={{
-                  labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-                  datasets: [
-                    {
-                      backgroundColor: 'rgba(255,255,255,.1)',
-                      borderColor: 'rgba(255,255,255,.55)',
-                      pointHoverBackgroundColor: '#fff',
-                      borderWidth: 2,
-                      data: [1, 13, 9, 17, 34, 41, 38],
-                      fill: true,
-                    },
-                  ],
-                }}
-                options={chartOptions}
-              />
-            ),
-          })}
-          icon={<CIcon icon={cibTwitter} height={52} className="my-4 text-white" />}
-          values={[
-            { title: 'followers', value: '973k' },
-            { title: 'tweets', value: '1.792' },
-          ]}
-          style={{
-            '--cui-card-cap-bg': '#00aced',
-          }}
-        />
-      </CCol>
-      <CCol sm={6} xl={4} xxl={3}>
-        <CWidgetStatsD
+          color="info"
           {...(props.withCharts && {
             chart: (
               <CChart
@@ -128,19 +79,16 @@ const WidgetsBrand = (props) => {
               />
             ),
           })}
-          icon={<CIcon icon={cibLinkedin} height={52} className="my-4 text-white" />}
+          icon={<CIcon icon={cilHeadphones} height={52} className="my-4 text-white" />}
           values={[
-            { title: 'contacts', value: '500' },
-            { title: 'feeds', value: '1.292' },
+            { title: 'Score', value: '89%' },
+            { title: 'Weight', value: '25%' },
           ]}
-          style={{
-            '--cui-card-cap-bg': '#4875b4',
-          }}
         />
       </CCol>
-      <CCol sm={6} xl={4} xxl={3}>
+      <CCol lg={true}>
         <CWidgetStatsD
-          color="warning"
+          color="info"
           {...(props.withCharts && {
             chart: (
               <CChart
@@ -163,10 +111,22 @@ const WidgetsBrand = (props) => {
               />
             ),
           })}
-          icon={<CIcon icon={cilCalendar} height={52} className="my-4 text-white" />}
+          icon={<CIcon icon={cilColorBorder} height={52} className="my-4 text-white" />}
           values={[
-            { title: 'events', value: '12+' },
-            { title: 'meetings', value: '4' },
+            { title: 'Score', value: '89%' },
+            { title: 'Weight', value: '15%' },
+          ]}
+        />
+      </CCol>
+      <CCol lg={true}>
+        <CWidgetStatsD
+          color="info"
+          {...(props.withCharts && {
+          })}
+          icon={<CIcon icon={cilSpeech} height={52} className="my-4 text-white" />}
+          values={[
+            { title: 'Score', value: '89%' },
+            { title: 'Weight', value: '25%' },
           ]}
         />
       </CCol>
@@ -180,3 +140,4 @@ WidgetsBrand.propTypes = {
 }
 
 export default WidgetsBrand
+

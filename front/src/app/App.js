@@ -5,9 +5,6 @@ import { useSelector } from 'react-redux'
 import { CSpinner, useColorModes } from '@coreui/react'
 import '/src/scss/style.scss'
 
-// We use those styles to show code examples, you should remove them in your application.
-import '/src/scss/examples.scss'
-
 // Containers
 const DefaultLayout = React.lazy(() => import('/src/coreui-components/DefaultLayout'))
 
