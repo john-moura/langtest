@@ -8,15 +8,14 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/john-moura/langtest/config"
 	"github.com/john-moura/langtest/service/auth"
-	"github.com/john-moura/langtest/types"
 	"github.com/john-moura/langtest/utils"
 )
 
 type Handler struct {
-	school types.UserSchool
+	school UserSchool
 }
 
-func NewHandler(school types.UserSchool) *Handler {
+func NewHandler(school UserSchool) *Handler {
 	return &Handler{school: school}
 }
 
@@ -29,7 +28,7 @@ func (h *Handler) RegisterRoutes(router *mux.Router) {
 
 func (h *Handler) handleLogin(w http.ResponseWriter, r *http.Request) {
 	//get json payload
-	var payload types.LoginUserPayload
+	var payload LoginUserPayload
 	if err := utils.ParseJSON(r, &payload); err != nil {
 		utils.WriteError(w, http.StatusBadRequest, err)
 		return
@@ -78,7 +77,7 @@ func (h *Handler) handleLogin(w http.ResponseWriter, r *http.Request) {
 func (h *Handler) handleRegister(w http.ResponseWriter, r *http.Request) {
 
 	//get json payload
-	var payload types.RegisterUserPayload
+	var payload RegisterUserPayload
 	if err := utils.ParseJSON(r, &payload); err != nil {
 		utils.WriteError(w, http.StatusBadRequest, err)
 		return
@@ -104,7 +103,7 @@ func (h *Handler) handleRegister(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// if it doesn't exist, create user
-	err = h.school.CreateUser(types.User{
+	err = h.school.CreateUser(User{
 		FirstName: payload.FirstName,
 		LastName:  payload.LastName,
 		Email:     payload.Email,

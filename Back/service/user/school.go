@@ -4,8 +4,6 @@ import (
 	"database/sql"
 	"fmt"
 	"log"
-
-	"github.com/john-moura/langtest/types"
 )
 
 type School struct {
@@ -16,7 +14,7 @@ func NewSchool(db *sql.DB) *School {
 	return &School{db: db}
 }
 
-func (s *School) GetUserByEmail(email string) (*types.User, error) {
+func (s *School) GetUserByEmail(email string) (*User, error) {
 
 	if s.db == nil {
 		log.Printf("DB is nil? %v", s.db == nil)
@@ -27,7 +25,7 @@ func (s *School) GetUserByEmail(email string) (*types.User, error) {
 		return nil, err
 	}
 
-	u := new(types.User)
+	u := new(User)
 	for rows.Next() {
 		u, err = scanRowIntoUser(rows)
 
@@ -42,8 +40,8 @@ func (s *School) GetUserByEmail(email string) (*types.User, error) {
 	return u, nil
 }
 
-func scanRowIntoUser(rows *sql.Rows) (*types.User, error) {
-	user := new(types.User)
+func scanRowIntoUser(rows *sql.Rows) (*User, error) {
+	user := new(User)
 
 	err := rows.Scan(
 		&user.ID,
@@ -60,13 +58,13 @@ func scanRowIntoUser(rows *sql.Rows) (*types.User, error) {
 	return user, nil
 }
 
-func (s *School) GetUserByID(id int) (*types.User, error) {
+func (s *School) GetUserByID(id int) (*User, error) {
 	rows, err := s.db.Query("SELECT * FROM users WHERE id = $1", id)
 	if err != nil {
 		return nil, err
 	}
 
-	u := new(types.User)
+	u := new(User)
 	for rows.Next() {
 		u, err = scanRowIntoUser(rows)
 
@@ -81,7 +79,7 @@ func (s *School) GetUserByID(id int) (*types.User, error) {
 	return u, nil
 }
 
-func (s *School) CreateUser(user types.User) error {
+func (s *School) CreateUser(user User) error {
 	_, err := s.db.Exec("INSERT INTO users(first_name, last_name, email, password) VALUES ($1,$2,$3,$4)", user.FirstName, user.LastName, user.Email, user.Password)
 	if err != nil {
 		return err

@@ -27,7 +27,7 @@ const Buttons = React.lazy(() => import('./views/buttons/buttons/Buttons'))
 const ButtonGroups = React.lazy(() => import('./views/buttons/button-groups/ButtonGroups'))
 const Dropdowns = React.lazy(() => import('./views/buttons/dropdowns/Dropdowns'))
 
-//Forms
+// Forms
 const ChecksRadios = React.lazy(() => import('./views/forms/checks-radios/ChecksRadios'))
 const FloatingLabels = React.lazy(() => import('./views/forms/floating-labels/FloatingLabels'))
 const FormControl = React.lazy(() => import('./views/forms/form-control/FormControl'))
@@ -58,6 +58,9 @@ const Reading = React.lazy(() => import('./views/subjects/Reading'))
 const Listening = React.lazy(() => import('./views/subjects/Listening'))
 const Writing = React.lazy(() => import('./views/subjects/Writing'))
 const Speaking = React.lazy(() => import('./views/subjects/Speaking'))
+
+// Tests
+const ReadingTest = React.lazy(() => import('./views/tests/ReadingTest'))
 
 const routes = [
   { path: '/', exact: true, name: 'Home' },
@@ -106,7 +109,8 @@ const routes = [
   { path: '/notifications/toasts', name: 'Toasts', element: Toasts },
   { path: '/widgets', name: 'Widgets', element: Widgets },
   { path: '/subjectcontent', name: 'Subject', element: SubjectContent },
-  { path: '/reading', name: 'Reading', element: Reading },
+  { path: '/reading/readingtest/:id', name: 'Reading Test', element: ReadingTest },
+  { path: '/reading', name: 'Reading', element: Reading, exact: true },
   { path: '/listening', name: 'Listening', element: Listening },
   { path: '/writing', name: 'Writing', element: Writing },
   { path: '/speaking', name: 'Speaking', element: Speaking },

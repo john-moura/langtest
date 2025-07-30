@@ -6,6 +6,7 @@ import (
 	"net/http"
 
 	"github.com/gorilla/mux"
+	"github.com/john-moura/langtest/service/subject"
 	"github.com/john-moura/langtest/service/user"
 	"github.com/rs/cors"
 )
@@ -29,6 +30,20 @@ func (s *APIServer) Run() error {
 	userSchool := user.NewSchool(s.db)
 	userHandler := user.NewHandler(userSchool)
 	userHandler.RegisterRoutes(subrouter)
+
+	subjectTests := subject.NewSubject(s.db)
+	subjectHandler := subject.NewHandler(subjectTests)
+	subjectHandler.RegisterRoutes(subrouter)
+
+	_ = router.Walk(func(route *mux.Route, router *mux.Router, ancestors []*mux.Route) error {
+		path, err := route.GetPathTemplate()
+		if err != nil {
+			return err
+		}
+		methods, _ := route.GetMethods()
+		log.Printf("Registered route: %s %v", path, methods)
+		return nil
+	})
 
 	// Apply CORS middleware
 	c := cors.New(cors.Options{

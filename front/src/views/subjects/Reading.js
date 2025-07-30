@@ -17,25 +17,25 @@ const Reading = ({ className }) => {
       {
         title: 'Reading 1',
         description: 'Mussum Ipsum, cacilds vidis litro abertis.  A ordem dos tratores não altera o pão duris.',
-        to: '/reading/1',
+        to: 'readingtest/1',
         color: "success",
       },
       {
         title: 'Reading 2',
         description: 'Mussum Ipsum, cacilds vidis litro abertis.  A ordem dos tratores não altera o pão duris.',
-        to: '/reading/2',
+        to: 'readingtest/2',
         color: "success",
       },
       {
         title: 'Reading 3',
         description: 'Mussum Ipsum, cacilds vidis litro abertis.  A ordem dos tratores não altera o pão duris.',
-        to: '/reading/3',
+        to: 'readingtest/3',
         color: "success",
       },
       {
         title: 'Reading 4',
         description: 'Mussum Ipsum, cacilds vidis litro abertis.  A ordem dos tratores não altera o pão duris.',
-        to: '/reading/4',
+        to: 'readingtest/4',
         color: "success",
       },
     ]

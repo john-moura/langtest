@@ -15,7 +15,7 @@ func main() {
 	log.Println(psqlInfo)
 	if psqlInfo == "" {
 		//Dev env
-		psqlInfo = "host=127.0.0.1 port=5432 user=postgres password=root dbname=langtest sslmode=disable"
+		psqlInfo = "host=127.0.0.1 port=5432 user=postgres password=root dbname=Langtest sslmode=disable"
 	}
 
 	db, err := sql.Open("postgres", psqlInfo)

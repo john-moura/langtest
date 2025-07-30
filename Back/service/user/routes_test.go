@@ -8,7 +8,6 @@ import (
 	"testing"
 
 	"github.com/gorilla/mux"
-	"github.com/john-moura/langtest/types"
 )
 
 func TestUserServiceHanlders(t *testing.T) {
@@ -16,7 +15,7 @@ func TestUserServiceHanlders(t *testing.T) {
 	handler := NewHandler(userSchool)
 
 	t.Run("Should fail if the user payload is invalid", func(t *testing.T) {
-		payload := types.RegisterUserPayload{
+		payload := RegisterUserPayload{
 			FirstName: "First name",
 			LastName:  "Last name",
 			Email:     "invalid",
@@ -39,7 +38,7 @@ func TestUserServiceHanlders(t *testing.T) {
 	})
 
 	t.Run("Should correctly register the user", func(t *testing.T) {
-		payload := types.RegisterUserPayload{
+		payload := RegisterUserPayload{
 			FirstName: "First",
 			LastName:  "Last",
 			Email:     "valid@gmail.com",
@@ -65,14 +64,14 @@ func TestUserServiceHanlders(t *testing.T) {
 type mockUserSchool struct {
 }
 
-func (m *mockUserSchool) GetUserByEmail(email string) (*types.User, error) {
+func (m *mockUserSchool) GetUserByEmail(email string) (*User, error) {
 	return nil, nil
 }
 
-func (m *mockUserSchool) GetUserByID(id int) (*types.User, error) {
+func (m *mockUserSchool) GetUserByID(id int) (*User, error) {
 	return nil, nil
 }
 
-func (m *mockUserSchool) CreateUser(types.User) error {
+func (m *mockUserSchool) CreateUser(User) error {
 	return nil
 }
