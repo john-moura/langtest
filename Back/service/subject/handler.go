@@ -30,7 +30,7 @@ func (h *Handler) handleSubject(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	subjectInfo, err := h.subjectTests.GetTests(id)
+	subjectInfo, err := h.subjectTests.GetSubject(id)
 	if err != nil {
 		utils.WriteError(w, http.StatusBadRequest, fmt.Errorf("invalid subject id"))
 		return

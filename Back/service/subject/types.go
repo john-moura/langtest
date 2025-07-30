@@ -8,6 +8,7 @@ import (
 
 type SubjectTests interface {
 	GetTests(id int) (*test.Test, error)
+	GetSubject(id int) (*Subject, error)
 }
 
 type Subject struct {

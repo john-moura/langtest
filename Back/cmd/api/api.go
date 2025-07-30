@@ -35,6 +35,7 @@ func (s *APIServer) Run() error {
 	subjectHandler := subject.NewHandler(subjectTests)
 	subjectHandler.RegisterRoutes(subrouter)
 
+	// Log registered routes
 	_ = router.Walk(func(route *mux.Route, router *mux.Router, ancestors []*mux.Route) error {
 		path, err := route.GetPathTemplate()
 		if err != nil {
