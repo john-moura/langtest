@@ -7,7 +7,7 @@ import (
 )
 
 type SubjectTests interface {
-	GetTests(id int) (*test.Test, error)
+	GetTests(id int) ([]test.Test, error)
 	GetSubject(id int) (*Subject, error)
 }
 
@@ -18,4 +18,9 @@ type Subject struct {
 	Icon        string    `json:"icon"`
 	CourseID    int       `json:"courseId"`
 	CreatedAt   time.Time `json:"createdAt"`
+}
+
+type SubjectWithTestsResponse struct {
+	Subject Subject     `json:"subject"`
+	Tests   []test.Test `json:"tests"`
 }
