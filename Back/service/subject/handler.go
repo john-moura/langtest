@@ -21,8 +21,6 @@ func (h *Handler) handleSubject(w http.ResponseWriter, r *http.Request) {
 	vars := mux.Vars(r) // extract path variables
 	idStr := vars["id"]
 
-	fmt.Println("ID from path:", idStr)
-
 	id, err := strconv.Atoi(idStr)
 
 	if err != nil {
@@ -36,5 +34,16 @@ func (h *Handler) handleSubject(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	utils.WriteJSON(w, http.StatusOK, subjectInfo)
+	subjectTests, err := h.subjectTests.GetTests(id)
+	if err != nil {
+		utils.WriteError(w, http.StatusBadRequest, fmt.Errorf("no tests found for subject"))
+		return
+	}
+
+	response := SubjectWithTestsResponse{
+		Subject: *subjectInfo,
+		Tests:   subjectTests,
+	}
+
+	utils.WriteJSON(w, http.StatusOK, response)
 }

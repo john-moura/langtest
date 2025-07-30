@@ -26,8 +26,7 @@ func (c *SubjectDB) GetSubject(subjectId int) (*Subject, error) {
 	if err != nil {
 		return nil, err
 	}
-
-	fmt.Println(rows)
+	defer rows.Close()
 
 	t := new(Subject)
 	for rows.Next() {
@@ -55,7 +54,7 @@ func scanRowIntoSubject(rows *sql.Rows) (*Subject, error) {
 		&subject.Icon,
 		&subject.CreatedAt,
 	)
-	fmt.Println(err)
+
 	if err != nil {
 		return nil, err
 	}
@@ -63,50 +62,47 @@ func scanRowIntoSubject(rows *sql.Rows) (*Subject, error) {
 	return subject, nil
 }
 
-func (c *SubjectDB) GetTests(subjectId int) (*test.Test, error) {
-
+func (c *SubjectDB) GetTests(subjectId int) ([]test.Test, error) {
 	if c.db == nil {
 		log.Printf("DB is nil? %v", c.db == nil)
 	}
 
-	rows, err := c.db.Query("SELECT * FROM tests WHERE subjectId = $1", subjectId)
+	rows, err := c.db.Query("SELECT * FROM tests WHERE subject_id = $1", subjectId)
 	if err != nil {
 		return nil, err
 	}
+	defer rows.Close()
 
-	t := new(test.Test)
+	var tests []test.Test
+
 	for rows.Next() {
-		t, err = scanRowIntoTest(rows)
-
+		var test test.Test
+		err := rows.Scan(
+			&test.ID,
+			&test.Name,
+			&test.ShortDescription,
+			&test.Description,
+			&test.Image,
+			&test.Weight,
+			&test.Duration,
+			&test.SubjectID,
+			&test.CourseID,
+			&test.CreatedAt,
+		)
 		if err != nil {
 			return nil, err
 		}
+
+		tests = append(tests, test)
 	}
 
-	if t.ID == 0 {
-		return nil, fmt.Errorf("tests not found")
-	}
-	return t, nil
-}
-
-func scanRowIntoTest(rows *sql.Rows) (*test.Test, error) {
-	test := new(test.Test)
-
-	err := rows.Scan(
-		&test.ID,
-		&test.Name,
-		&test.ShortDescription,
-		&test.Description,
-		&test.Image,
-		&test.Weight,
-		&test.Duration,
-		&test.SubjectID,
-		&test.CourseID,
-		&test.CreatedAt,
-	)
-	if err != nil {
+	if err = rows.Err(); err != nil {
 		return nil, err
 	}
 
-	return test, nil
+	if len(tests) == 0 {
+		return nil, fmt.Errorf("tests not found")
+	}
+
+	return tests, nil
 }
